@@ -5,9 +5,18 @@ import { useCareers } from "../../hooks/useCareers";
 import ApplyModal from "../../components/careers/ApplyModal";
 
 function Careers() {
-  const { jobs } = useCareers();
+  const { jobs, loading } = useCareers();
   const [expandedId, setExpandedId] = useState(null);
   const [applyingJob, setApplyingJob] = useState(null);
+  const activeJobs = jobs.filter((job) => job.is_active);
+
+  if (loading) {
+  return (
+    <div className="min-h-screen bg-[#111111] flex items-center justify-center">
+      <p className="text-gray-400">Loading careers...</p>
+    </div>
+  );
+}
 
   return (
     <div className="bg-[#111111] min-h-screen">
@@ -44,7 +53,7 @@ function Careers() {
 
       <div className="max-w-screen-xl mx-auto px-6 lg:px-10 py-16 md:py-20">
         <div className="space-y-5">
-          {jobs.map((job, index) => {
+          {activeJobs.map((job, index) => {
             const isExpanded = expandedId === job.id;
             return (
               <motion.div
@@ -101,7 +110,7 @@ function Careers() {
                           Responsibilities
                         </h4>
                         <ul className="space-y-2">
-                          {job.responsibilities.map((r) => (
+                          {job.responsibilities?.map((r) => (
                             <li key={r} className="text-gray-400 text-sm flex gap-2">
                               <span className="text-[#C8A96A]">•</span> {r}
                             </li>
@@ -113,7 +122,7 @@ function Careers() {
                           Requirements
                         </h4>
                         <ul className="space-y-2">
-                          {job.requirements.map((r) => (
+                          {job.requirements?.map((r) => (
                             <li key={r} className="text-gray-400 text-sm flex gap-2">
                               <span className="text-[#C8A96A]">•</span> {r}
                             </li>
@@ -135,7 +144,7 @@ function Careers() {
           })}
         </div>
 
-        {jobs.length === 0 && (
+        {activeJobs.length === 0 && (
           <p className="text-center text-gray-500 py-20">
             No open positions right now — check back soon.
           </p>

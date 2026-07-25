@@ -30,16 +30,24 @@ export function useServices() {
   );
 
   const addService = useCallback(async (data) => {
-    const formData = buildFormData(data);
+    const { heroImage, shortDescription, ...rest } = data;
+    const payload = { ...rest, short_description: shortDescription };
+    if (heroImage instanceof File) payload.hero_image = heroImage;
+
+    const formData = buildFormData(payload);
     await axiosInstance.post("/services/", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     await fetchServices();
   }, [fetchServices]);
 
-  const updateService = useCallback(async (slugOrId, data) => {
-    const formData = buildFormData(data);
-    await axiosInstance.patch(`/services/${slugOrId}/`, formData, {
+  const updateService = useCallback(async (slug, data) => {
+    const { heroImage, shortDescription, ...rest } = data;
+    const payload = { ...rest, short_description: shortDescription };
+    if (heroImage instanceof File) payload.hero_image = heroImage;
+
+    const formData = buildFormData(payload);
+    await axiosInstance.patch(`/services/${slug}/`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
     await fetchServices();

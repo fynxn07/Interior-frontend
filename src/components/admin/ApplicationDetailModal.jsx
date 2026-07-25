@@ -93,15 +93,16 @@ function ApplicationDetailModal({ application, open, onClose }) {
                     {/* Resume */}
                     {application.resume && (
                       <a
-                        href={application.resume.dataUrl}
-                        download={application.resume.name}
+                        href={application.resume}
+                        target="blank"
+                        rel="noreferrer"
                         className="group flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] p-4 transition-colors hover:border-[#8B7CFF]/50"
                       >
                         <span className="flex items-center gap-3 truncate text-sm text-gray-300">
                           <FaFileAlt className="flex-shrink-0 text-[#8B7CFF]" />
 
                           <span className="truncate">
-                            {application.resume.name}
+                            View Resume
                           </span>
                         </span>
 

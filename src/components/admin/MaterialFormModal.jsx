@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import ImageDropzone from "./ImageDropzone";
 import ModalPortal from "./ModalPortal";
-import { fileToDataUrl } from "../../utils/fileToDataUrl";
 
 const emptyForm = { brand: "", logo: "", category: "", country: "", group: "Material Directory" };
 
@@ -28,14 +27,16 @@ function MaterialFormModal({ open, onClose, onSubmit, initialData, groupOptions 
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleLogo = async (file) => {
-    const dataUrl = await fileToDataUrl(file);
-    setForm((f) => ({ ...f, logo: dataUrl }));
+  const handleLogo = (file) => {
+    setForm((f) => ({
+      ...f,
+      logo: file,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.brand.trim() || !form.logo.trim()) return;
+    if (!form.brand.trim() || !form.logo) return;
     setSaving(true);
     await onSubmit(form);
     setSaving(false);

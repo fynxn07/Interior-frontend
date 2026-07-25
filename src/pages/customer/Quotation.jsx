@@ -92,7 +92,15 @@ function Quotation() {
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
-        update({ images: [...form.images, { name: file.name, dataUrl: reader.result }] });
+        update({
+          images: [
+            ...form.images,
+            {
+              name: file.name,
+              dataUrl: reader.result,
+            },
+          ],
+        });
       };
       reader.readAsDataURL(file);
     });
@@ -286,16 +294,14 @@ function StepService({ services, selected, error, onSelect }) {
               key={s.slug}
               type="button"
               onClick={() => onSelect(s.title)}
-              className={`flex items-start gap-4 text-left rounded-xl p-5 border transition-all duration-300 ${
-                isActive
+              className={`flex items-start gap-4 text-left rounded-xl p-5 border transition-all duration-300 ${isActive
                   ? "border-[#C8A96A] bg-[#C8A96A]/10"
                   : "border-white/10 bg-white/[0.02] hover:border-white/25"
-              }`}
+                }`}
             >
               <div
-                className={`w-11 h-11 rounded-full flex items-center justify-center text-lg flex-shrink-0 ${
-                  isActive ? "bg-[#C8A96A] text-black" : "bg-white/5 text-[#C8A96A]"
-                }`}
+                className={`w-11 h-11 rounded-full flex items-center justify-center text-lg flex-shrink-0 ${isActive ? "bg-[#C8A96A] text-black" : "bg-white/5 text-[#C8A96A]"
+                  }`}
               >
                 <Icon />
               </div>
@@ -337,9 +343,8 @@ function StepDetails({ form, errors, onChange }) {
             onChange={(e) => onChange({ description: e.target.value })}
             rows={4}
             placeholder="Describe your space, style preferences, and requirements..."
-            className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors resize-none ${
-              errors.description ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
-            }`}
+            className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors resize-none ${errors.description ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
+              }`}
           />
           {errors.description && (
             <p className="text-red-400 text-xs mt-1.5">{errors.description}</p>
@@ -356,11 +361,10 @@ function StepDetails({ form, errors, onChange }) {
                 key={b}
                 type="button"
                 onClick={() => onChange({ budget: b })}
-                className={`px-4 py-3 rounded-lg text-sm border transition-all duration-300 ${
-                  form.budget === b
+                className={`px-4 py-3 rounded-lg text-sm border transition-all duration-300 ${form.budget === b
                     ? "border-[#C8A96A] bg-[#C8A96A]/10 text-[#C8A96A]"
                     : "border-white/10 text-gray-300 hover:border-white/25"
-                }`}
+                  }`}
               >
                 {b}
               </button>
@@ -380,11 +384,10 @@ function StepDetails({ form, errors, onChange }) {
                   key={loc}
                   type="button"
                   onClick={() => onChange({ location: loc })}
-                  className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-3 rounded-lg text-xs sm:text-sm border transition-all duration-300 ${
-                    form.location === loc
+                  className={`flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-3 rounded-lg text-xs sm:text-sm border transition-all duration-300 ${form.location === loc
                       ? "border-[#C8A96A] bg-[#C8A96A]/10 text-[#C8A96A]"
                       : "border-white/10 text-gray-300 hover:border-white/25"
-                  }`}
+                    }`}
                 >
                   <FaMapMarkerAlt size={11} /> {loc}
                 </button>
@@ -480,9 +483,8 @@ function StepContact({ form, errors, onChange }) {
             value={form.name}
             onChange={(e) => onChange({ name: e.target.value })}
             placeholder="Your name"
-            className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${
-              errors.name ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
-            }`}
+            className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${errors.name ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
+              }`}
           />
           {errors.name && <p className="text-red-400 text-xs mt-1.5">{errors.name}</p>}
         </div>
@@ -497,9 +499,8 @@ function StepContact({ form, errors, onChange }) {
               value={form.email}
               onChange={(e) => onChange({ email: e.target.value })}
               placeholder="you@example.com"
-              className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${
-                errors.email ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
-              }`}
+              className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${errors.email ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
+                }`}
             />
             {errors.email && <p className="text-red-400 text-xs mt-1.5">{errors.email}</p>}
           </div>
@@ -511,9 +512,8 @@ function StepContact({ form, errors, onChange }) {
               value={form.phone}
               onChange={(e) => onChange({ phone: e.target.value })}
               placeholder="+971 XX XXX XXXX"
-              className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${
-                errors.phone ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
-              }`}
+              className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${errors.phone ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
+                }`}
             />
             {errors.phone && <p className="text-red-400 text-xs mt-1.5">{errors.phone}</p>}
           </div>

@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FaTimes, FaImages, FaInfoCircle } from "react-icons/fa";
 import ImageDropzone from "./ImageDropzone";
 import ModalPortal from "./ModalPortal";
-import { fileToDataUrl } from "../../utils/fileToDataUrl";
 
 const emptyForm = {
   title: "",
@@ -48,16 +47,23 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
     setForm((f) => ({ ...f, [name]: type === "checkbox" ? checked : value }));
   };
 
-  const handleCoverImage = async (file) => {
-    const dataUrl = await fileToDataUrl(file);
-    setForm((f) => ({ ...f, coverImage: dataUrl }));
-  };
-
-  const addGalleryRow = async (file) => {
-    const dataUrl = await fileToDataUrl(file);
+  const handleCoverImage = (file) => {
     setForm((f) => ({
       ...f,
-      gallery: [...f.gallery, { url: dataUrl, type: "standard" }],
+      coverImage: file,
+    }));
+  };
+
+  const addGalleryRow = (file) => {
+    setForm((f) => ({
+      ...f,
+      gallery: [
+        ...f.gallery,
+        {
+          url: file,
+          type: "standard",
+        },
+      ],
     }));
   };
 
@@ -73,7 +79,7 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.title.trim() || !form.coverImage.trim()) return;
+    if (!form.title.trim() || !form.coverImage) return;
     setSaving(true);
     await onSubmit(form);
     setSaving(false);
@@ -253,12 +259,19 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
                           <div key={index} className="space-y-1.5 min-w-0">
                             <ImageDropzone
                               value={item.url}
-                              onChange={async (file) => {
-                                const dataUrl = await fileToDataUrl(file);
+                              onChange={(file) => {
                                 setForm((f) => {
                                   const gallery = [...f.gallery];
-                                  gallery[index] = { ...gallery[index], url: dataUrl };
-                                  return { ...f, gallery };
+
+                                  gallery[index] = {
+                                    ...gallery[index],
+                                    url: file,
+                                  };
+
+                                  return {
+                                    ...f,
+                                    gallery,
+                                  };
                                 });
                               }}
                               onRemove={() => removeGalleryRow(index)}

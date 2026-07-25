@@ -139,12 +139,12 @@ function QuotationDetailModal({ quotation, open, onClose, onSave }) {
                             {quotation.images.map((img, i) => (
                             <a
                                 key={i}
-                                href={img.dataUrl}
+                                href={img.url}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="aspect-square rounded-lg overflow-hidden border border-white/10 hover:border-[#8B7CFF]/50 transition-colors"
                               >
-                                <img src={img.dataUrl} alt="" className="w-full h-full object-cover" />
+                                <img src={img.url} alt="" className="w-full h-full object-cover" />
                               </a>
                             ))}
                           </div>

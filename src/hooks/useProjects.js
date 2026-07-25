@@ -35,16 +35,19 @@ export function useProjects() {
   }, []);
 
   const addProject = useCallback(async (data) => {
-    const { gallery, ...rest } = data;
-    const formData = buildFormData(rest);
+    const { gallery, coverImage, ...rest } = data;
+    const payload = { ...rest };
+    if (coverImage instanceof File) payload.cover_image = coverImage;
+    // if coverImage is a string here, it's meaningless on create (no existing image yet) — skip
+
+    const formData = buildFormData(payload);
     const { data: created } = await axiosInstance.post("/projects/", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
-    // Gallery images upload one at a time — matches backend's sub-endpoint design
     if (gallery?.length) {
       for (const item of gallery) {
-        if (!(item.url instanceof File)) continue; // skip already-existing URLs on edit
+        if (!(item.url instanceof File)) continue;
         const imgForm = new FormData();
         imgForm.append("image", item.url);
         imgForm.append("type", item.type || "standard");
@@ -53,20 +56,24 @@ export function useProjects() {
         });
       }
     }
-
     await fetchProjects();
   }, [fetchProjects]);
 
   const updateProject = useCallback(async (id, data) => {
-    const { gallery, ...rest } = data;
-    const formData = buildFormData(rest);
+    const { gallery, coverImage, ...rest } = data;
+    const payload = { ...rest };
+    // Only send cover_image if admin actually picked a new file this session —
+    // if it's still the existing URL string, omit it so PATCH keeps the current image.
+    if (coverImage instanceof File) payload.cover_image = coverImage;
+
+    const formData = buildFormData(payload);
     await axiosInstance.patch(`/projects/${id}/`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
     if (gallery?.length) {
       for (const item of gallery) {
-        if (!(item.url instanceof File)) continue; // only upload new files
+        if (!(item.url instanceof File)) continue;
         const imgForm = new FormData();
         imgForm.append("image", item.url);
         imgForm.append("type", item.type || "standard");
@@ -75,7 +82,6 @@ export function useProjects() {
         });
       }
     }
-
     await fetchProjects();
   }, [fetchProjects]);
 

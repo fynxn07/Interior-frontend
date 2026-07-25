@@ -20,7 +20,11 @@ export function useMaterials() {
   const groups = ["All", ...new Set(materials.map((m) => m.group))];
 
   const addMaterial = useCallback(async (data) => {
-    const formData = buildFormData(data);
+    const { logo, ...rest } = data;
+    const payload = { ...rest };
+    if (logo instanceof File) payload.logo = logo;
+
+    const formData = buildFormData(payload);
     await axiosInstance.post("/materials/", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -28,7 +32,11 @@ export function useMaterials() {
   }, [fetchMaterials]);
 
   const updateMaterial = useCallback(async (id, data) => {
-    const formData = buildFormData(data);
+    const { logo, ...rest } = data;
+    const payload = { ...rest };
+    if (logo instanceof File) payload.logo = logo;
+
+    const formData = buildFormData(payload);
     await axiosInstance.patch(`/materials/${id}/`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });

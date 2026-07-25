@@ -4,12 +4,21 @@ import axiosInstance from "../services/axiosInstance";
 export function useContactMessages() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   const fetchMessages = useCallback(async () => {
     setLoading(true);
-    const { data } = await axiosInstance.get("/contacts/");
-    setMessages(data);
-    setLoading(false);
+
+    try {
+      const { data } = await axiosInstance.get("/contacts/");
+      setMessages(data);
+      setError(null);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -29,8 +38,16 @@ export function useContactMessages() {
   }, []);
 
   const replyToMessage = useCallback(async (id, replyText) => {
-    const { data } = await axiosInstance.post(`/contacts/${id}/reply/`, { reply: replyText });
-    setMessages((prev) => prev.map((m) => (m.id === id ? data : m)));
+    const { data } = await axiosInstance.post(
+      `/contacts/${id}/reply/`,
+      { reply: replyText }
+    );
+
+    setMessages((prev) =>
+      prev.map((m) => (m.id === id ? data : m))
+    );
+
+    return data;
   }, []);
 
   const deleteMessage = useCallback(async (id) => {
@@ -38,5 +55,5 @@ export function useContactMessages() {
     await fetchMessages();
   }, [fetchMessages]);
 
-  return { messages, loading, sendMessage, markAsRead, replyToMessage, deleteMessage };
+  return { messages, loading, error, sendMessage, markAsRead, replyToMessage, deleteMessage };
 }

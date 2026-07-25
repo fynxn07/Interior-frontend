@@ -7,7 +7,7 @@ function resolveLogo(logo) {
 }
 
 function Materials() {
-  const { materials, groups } = useMaterials();
+  const { materials, groups, loading } = useMaterials();
   const [activeGroup, setActiveGroup] = useState("All");
 
   const filtered = useMemo(
@@ -17,6 +17,19 @@ function Materials() {
         : materials.filter((m) => m.group === activeGroup),
     [materials, activeGroup]
   );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#111111] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 mx-auto rounded-full border-4 border-[#C8A96A]/20 border-t-[#C8A96A] animate-spin" />
+          <p className="mt-4 text-gray-400 text-sm">
+            Loading materials...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#111111] min-h-screen">
@@ -59,11 +72,10 @@ function Materials() {
             <button
               key={g}
               onClick={() => setActiveGroup(g)}
-              className={`px-5 py-2 rounded-full text-sm uppercase tracking-wider border transition-all duration-300 ${
-                activeGroup === g
+              className={`px-5 py-2 rounded-full text-sm uppercase tracking-wider border transition-all duration-300 ${activeGroup === g
                   ? "bg-[#C8A96A] text-black border-[#C8A96A]"
                   : "text-white/80 border-white/20 hover:border-[#C8A96A] hover:text-[#C8A96A]"
-              }`}
+                }`}
             >
               {g}
             </button>
@@ -88,7 +100,7 @@ function Materials() {
               {/* Logo window — clear, uncropped-feeling, warm card not flat white */}
               <div className="relative flex items-center justify-center h-32 sm:h-36 bg-gradient-to-br from-[#fdfcfa] to-[#efe8db] px-6 py-5">
                 <img
-                  src={resolveLogo(material.logo)}
+                  src={material.logo}
                   alt={material.brand}
                   className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
                 />

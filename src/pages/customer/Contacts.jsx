@@ -18,20 +18,36 @@ const infoCards = [
   {
     icon: FaPhoneAlt,
     label: "Phone",
-    lines: ["+971 4 267 9470"],
-    href: "tel:+97142679470",
+    lines: [
+      {
+        text: "+971 4 267 9470",
+        href: "tel:+97142679470",
+      },
+    ],
   },
   {
     icon: FaWhatsapp,
     label: "Mobile / WhatsApp",
-    lines: ["+971 55 253 0169", "+971 52 825 6790"],
-    href: "https://wa.me/971552530169",
+    lines: [
+      {
+        text: "+971 55 253 0169",
+        href: "https://wa.me/971552530169",
+      },
+      {
+        text: "+971 52 825 6790",
+        href: "https://wa.me/971528256790",
+      },
+    ],
   },
   {
     icon: FaEnvelope,
     label: "Email",
-    lines: ["okdecor6776@gmail.com"],
-    href: "mailto:okdecor6776@gmail.com",
+    lines: [
+      {
+        text: "okdecor6776@gmail.com",
+        href: "mailto:okdecor6776@gmail.com",
+      },
+    ],
   },
   {
     icon: FaClock,
@@ -98,39 +114,50 @@ function Contacts() {
           >
             {infoCards.map((card) => {
               const Icon = card.icon;
+
               const content = (
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-[#C8A96A]/15 border border-[#C8A96A]/40 flex items-center justify-center text-[#C8A96A] flex-shrink-0">
                     <Icon />
                   </div>
+
                   <div>
                     <p className="text-xs uppercase tracking-wider text-gray-400">
                       {card.label}
                     </p>
-                    {card.lines.map((line) => (
-                      <p key={line} className="text-white font-medium mt-0.5">
-                        {line}
-                      </p>
-                    ))}
+
+                    {card.lines.map((line, index) => {
+                      if (typeof line === "string") {
+                        return (
+                          <p
+                            key={index}
+                            className="text-white font-medium mt-0.5"
+                          >
+                            {line}
+                          </p>
+                        );
+                      }
+
+                      return (
+                        <a
+                          key={index}
+                          href={line.href}
+                          target={line.href.startsWith("http") ? "_blank" : undefined}
+                          rel="noreferrer"
+                          className="block mt-0.5 font-medium text-white hover:text-[#C8A96A] transition-colors"
+                        >
+                          {line.text}
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               );
 
-              return card.href ? (
-
-                <a
-                  key={card.label}
-                  href={card.href}
-                  target={card.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer"
-                  className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 hover:border-[#C8A96A]/50 hover:bg-white/[0.07] transition-all duration-300"
-                >
-                  {content}
-                </a>
-              ) : (
+              return (
                 <div
                   key={card.label}
-                  className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6"
+                  className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 hover:border-[#C8A96A]/50 hover:bg-white/[0.07] transition-all duration-300"
                 >
                   {content}
                 </div>
@@ -143,9 +170,16 @@ function Contacts() {
                 <p className="text-xs uppercase tracking-wider text-gray-400">
                   Follow Us
                 </p>
-                <p className="text-white font-medium mt-0.5">@okdecoration</p>
+                <a
+                  href="https://instagram.com/okdecoration"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-white font-medium mt-0.5 hover:text-[#C8A96A] transition-colors"
+                >
+                  @okdecoration
+                </a>
               </div>
-              
+
               <a
                 href="https://instagram.com/okdecoration"
                 target="_blank"

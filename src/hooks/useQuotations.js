@@ -4,12 +4,21 @@ import axiosInstance from "../services/axiosInstance";
 export function useQuotations() {
   const [quotations, setQuotations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   const fetchQuotations = useCallback(async () => {
     setLoading(true);
-    const { data } = await axiosInstance.get("/quotations/");
-    setQuotations(data);
-    setLoading(false);
+
+    try {
+      const { data } = await axiosInstance.get("/quotations/");
+      setQuotations(data);
+      setError(null)
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -49,5 +58,5 @@ export function useQuotations() {
     await fetchQuotations();
   }, [fetchQuotations]);
 
-  return { quotations, loading, submitQuotation, updateQuotation, deleteQuotation };
+  return { quotations, loading,error, submitQuotation, updateQuotation, deleteQuotation };
 }

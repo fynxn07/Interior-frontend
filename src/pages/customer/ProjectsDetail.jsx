@@ -4,21 +4,54 @@ import { FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaUserTie } from "react-ic
 import { useProjects } from "../../hooks/useProjects";
 
 function ProjectDetail() {
-  const { slug } = useParams();
-  const { projects, getBySlug } = useProjects();
-  const project = getBySlug(slug);
+  const { id } = useParams();
 
-  if (projects.length && !project) return <Navigate to="/projects" replace />;
-  if (!project) return null;
+  const {
+    projects,
+    loading,
+    getById,
+  } = useProjects();
+
+  const project = getById(id);
+
+  // Wait until the projects have finished loading
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#111111] flex items-center justify-center">
+        <p className="text-gray-400">Loading project...</p>
+      </div>
+    );
+  }
+
+  // Show 404/redirect if the project doesn't exist
+  if (!project) {
+    return <Navigate to="/projects" replace />;
+  }
 
   const relatedProjects = projects
-    .filter((p) => p.slug !== slug && p.category === project.category)
+    .filter(
+      (p) =>
+        p.id !== project.id &&
+        p.category === project.category
+    )
     .slice(0, 3);
 
   const meta = [
-    { icon: FaUserTie, label: "Client", value: project.client },
-    { icon: FaMapMarkerAlt, label: "Location", value: project.location },
-    { icon: FaCalendarAlt, label: "Status", value: project.status },
+    {
+      icon: FaUserTie,
+      label: "Client",
+      value: project.client,
+    },
+    {
+      icon: FaMapMarkerAlt,
+      label: "Location",
+      value: project.location,
+    },
+    {
+      icon: FaCalendarAlt,
+      label: "Status",
+      value: project.status,
+    },
   ];
 
   return (
@@ -113,15 +146,15 @@ function ProjectDetail() {
         {/* Gallery */}
         {project.gallery?.length > 0 && (
           <div className="mt-16 grid sm:grid-cols-2 gap-6">
-            {project.gallery.map((img, i) => (
+            {project.gallery.map((img,index) => (
               <motion.img
-                key={i}
+                key={img.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                src={img}
-                alt={`${project.title} ${i + 1}`}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                src={img.url}
+                alt={project.title}
                 className="rounded-2xl w-full h-[280px] sm:h-[320px] object-cover"
               />
             ))}
@@ -140,7 +173,7 @@ function ProjectDetail() {
               {relatedProjects.map((p) => (
                 <Link
                   key={p.id}
-                  to={`/projects/${p.slug}`}
+                  to={`/projects/${p.id}`}
                   className="group relative overflow-hidden rounded-2xl h-[240px] border border-white/10 hover:border-[#C8A96A]/50 transition-colors duration-300"
                 >
                   <img

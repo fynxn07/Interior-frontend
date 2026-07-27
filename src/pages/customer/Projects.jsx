@@ -5,7 +5,9 @@ import { FaArrowRight, FaMapMarkerAlt } from "react-icons/fa";
 import { useProjects } from "../../hooks/useProjects";
 
 function Projects() {
-  const { projects } = useProjects();
+  const { projects, loading } = useProjects();
+
+
   const [activeCategory, setActiveCategory] = useState("All");
 
   const categories = useMemo(
@@ -17,6 +19,14 @@ function Projects() {
     activeCategory === "All"
       ? projects
       : projects.filter((p) => p.category === activeCategory);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#111111] flex items-center justify-center">
+        <p className="text-gray-400">Loading projects...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#111111] min-h-screen">
@@ -60,11 +70,10 @@ function Projects() {
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm uppercase tracking-wider border transition-all duration-300 ${
-                activeCategory === cat
+              className={`px-5 py-2 rounded-full text-sm uppercase tracking-wider border transition-all duration-300 ${activeCategory === cat
                   ? "bg-[#C8A96A] text-black border-[#C8A96A]"
                   : "text-white/80 border-white/20 hover:border-[#C8A96A] hover:text-[#C8A96A]"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -90,7 +99,7 @@ function Projects() {
                 whileHover={{ y: -8 }}
                 className="group relative overflow-hidden rounded-2xl h-[360px] border border-white/10 hover:border-[#C8A96A]/50 transition-colors duration-300 shadow-lg shadow-black/30"
               >
-                <Link to={`/projects/${project.slug}`}>
+                <Link to={`/projects/${project.id}`}>
                   <img
                     src={project.coverImage}
                     alt={project.title}

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaBriefcase, FaClock, FaArrowRight } from "react-icons/fa";
 import { useCareers } from "../../hooks/useCareers";
 import ApplyModal from "../../components/careers/ApplyModal";
+import NoOpeningsState from "../../components/careers/NoOpeningState";
 
 function Careers() {
   const { jobs, loading } = useCareers();
@@ -144,11 +145,8 @@ function Careers() {
           })}
         </div>
 
-        {activeJobs.length === 0 && (
-          <p className="text-center text-gray-500 py-20">
-            No open positions right now — check back soon.
-          </p>
-        )}
+        {activeJobs.length === 0 && <NoOpeningsState />}
+
       </div>
 
       {applyingJob && (

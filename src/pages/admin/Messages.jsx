@@ -23,7 +23,7 @@ function timeAgo(iso) {
 }
 
 function AdminMessages() {
-    const { messages, deleteMessage, markAsRead, replyToMessage } = useContactMessages();
+    const { messages, deleteMessage, fetchMessage, replyToMessage } = useContactMessages();
     const [filter, setFilter] = useState("All");
     const [viewing, setViewing] = useState(null);
     const [deleteTarget, setDeleteTarget] = useState(null);
@@ -38,17 +38,14 @@ function AdminMessages() {
 
     const filtered =
         filter === "All" ? messages : messages.filter((m) => m.status === filter);
+        
 
     const handleView = async (message) => {
-        setViewing(message);
-
-        if (message.status === "unread") {
-            try {
-                const updated = await markAsRead(message.id);
-                setViewing(updated);
-            } catch (error) {
-                console.error("Failed to mark message as read:", error);
-            }
+        try {
+            const fullMessage = await fetchMessage(message.id);
+            setViewing(fullMessage);
+        } catch (error) {
+            console.error("Failed to fetch message:", error);
         }
     };
 

@@ -5,19 +5,33 @@ import { buildFormData } from "../utils/buildFormData";
 export function useMaterials() {
   const [materials, setMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const fetchMaterials = useCallback(async () => {
     setLoading(true);
-    const { data } = await axiosInstance.get("/materials/");
-    setMaterials(data);
-    setLoading(false);
+    try {
+      const { data } = await axiosInstance.get("/materials/");
+      // Defensive: only ever set an array, no matter what came back
+      setMaterials(Array.isArray(data) ? data : []);
+      setError(null);
+    } catch (err) {
+      console.error("Failed to fetch materials:", err.response?.status, err.response?.data || err.message);
+      setError(err);
+      setMaterials([]); // never leave it in a broken state
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   useEffect(() => {
     fetchMaterials();
   }, [fetchMaterials]);
 
-  const groups = ["All", ...new Set(materials.map((m) => m.group))];
+  const groups = [
+    "All",
+    "Material Directory",
+    "Materials & Colour",
+  ];
 
   const addMaterial = useCallback(async (data) => {
     const { logo, ...rest } = data;
@@ -48,5 +62,5 @@ export function useMaterials() {
     await fetchMaterials();
   }, [fetchMaterials]);
 
-  return { materials, loading, groups, addMaterial, updateMaterial, deleteMaterial };
+  return { materials, loading, error, groups, addMaterial, updateMaterial, deleteMaterial };
 }

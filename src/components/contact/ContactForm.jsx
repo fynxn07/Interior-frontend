@@ -72,7 +72,7 @@ function ContactForm() {
 
           <div>
             <label className="block text-xs uppercase tracking-wider text-gray-400 mb-2">
-              Phone (optional)
+              Phone 
             </label>
             <input
               name="phone"
@@ -93,7 +93,7 @@ function ContactForm() {
             type="email"
             value={form.email}
             onChange={handleChange}
-            placeholder="you@example.com"
+            placeholder="name@gmail.com"
             className={`w-full bg-white/5 border rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none transition-colors ${
               errors.email ? "border-red-500" : "border-white/10 focus:border-[#C8A96A]"
             }`}

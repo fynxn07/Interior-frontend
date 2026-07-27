@@ -1,9 +1,22 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
-import { servicesData } from "../../data/ServicesData";
+import { useServices } from "../../hooks/useServices";
+import { getIcon } from "../../utils/iconMap";
 
 function ServicesSection() {
+  const { services, loading } = useServices();
+
+  if (loading) {
+    return null;
+  }
+
+  const featuredServices = services.slice(0, 4);
+
+  if (featuredServices.length === 0) {
+    return null;
+  }
+
   return (
     <section className="bg-[#111111] py-20 md:py-28">
       <div className="max-w-screen-2xl mx-auto px-6 lg:px-10">
@@ -17,9 +30,11 @@ function ServicesSection() {
           <p className="uppercase tracking-[6px] sm:tracking-[8px] text-[#C8A96A] mb-4 text-sm">
             Our Services
           </p>
+
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">
             Interior Design · Fit-Out · Joinery
           </h2>
+
           <p className="text-gray-400 mt-6 max-w-2xl mx-auto text-base lg:text-lg">
             From concept to completion, our in-house teams deliver every
             stage of the project under one roof.
@@ -27,8 +42,9 @@ function ServicesSection() {
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {servicesData.map((service, index) => {
-            const Icon = service.icon;
+          {featuredServices.map((service, index) => {
+            const Icon = getIcon(service.icon);
+
             return (
               <motion.div
                 key={service.id}
@@ -45,12 +61,15 @@ function ServicesSection() {
                   <div className="w-14 h-14 rounded-full bg-[#C8A96A] text-black flex items-center justify-center text-xl">
                     <Icon />
                   </div>
+
                   <h3 className="text-white text-lg sm:text-xl font-semibold mt-6">
                     {service.title}
                   </h3>
+
                   <p className="text-gray-400 mt-3 text-sm leading-6 flex-1">
                     {service.shortDescription}
                   </p>
+
                   <span className="inline-flex items-center gap-2 mt-6 text-[#C8A96A] text-sm font-semibold group-hover:gap-4 transition-all">
                     Learn More <FaArrowRight />
                   </span>
@@ -65,7 +84,8 @@ function ServicesSection() {
             to="/services"
             className="inline-flex items-center gap-3 rounded-lg border border-[#C8A96A] px-8 py-3.5 font-semibold text-[#C8A96A] hover:bg-[#C8A96A] hover:text-black transition-all duration-300"
           >
-            View All Services <FaArrowRight />
+            View All Services
+            <FaArrowRight />
           </Link>
         </div>
       </div>

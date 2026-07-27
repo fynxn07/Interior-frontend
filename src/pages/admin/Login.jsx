@@ -15,7 +15,14 @@ function AdminLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await login(form.email, form.password);
+
+    if (loading) return;
+
+    const success = await login(
+      form.email.trim(),
+      form.password
+    );
+
     if (success) navigate("/admin");
   };
 

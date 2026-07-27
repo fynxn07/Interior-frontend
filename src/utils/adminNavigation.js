@@ -24,7 +24,6 @@ export const adminNavSections = [
       { label: "Projects", to: "/admin/projects", icon: FaProjectDiagram },
       { label: "Services", to: "/admin/services", icon: FaTools },
       { label: "Materials", to: "/admin/materials", icon: FaCubes },
-      { label: "Testimonials", to: "/admin/testimonials", icon: FaStar },
     ],
   },
   {
@@ -33,13 +32,6 @@ export const adminNavSections = [
       { label: "Quotations", to: "/admin/quotations", icon: FaFileInvoiceDollar },
       { label: "Contact Messages", to: "/admin/messages", icon: FaEnvelopeOpenText },
       { label: "Careers", to: "/admin/careers", icon: FaBriefcase },
-    ],
-  },
-  {
-    label: "System",
-    items: [
-      { label: "Users", to: "/admin/users", icon: FaUsers },
-      { label: "Settings", to: "/admin/settings", icon: FaCog },
     ],
   },
 ];

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../services/axiosInstance";
 import { buildFormData } from "../utils/buildFormData";
 
+
 export function useCareers() {
   const [jobs, setJobs] = useState([]);
   const [applications, setApplications] = useState([]);

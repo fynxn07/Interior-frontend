@@ -18,10 +18,10 @@ function ApplyModal({ job, open, onClose }) {
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () =>
-      setForm((f) => ({ ...f, resume: { name: file.name, dataUrl: reader.result } }));
-    reader.readAsDataURL(file);
+    // Store the raw File directly — no FileReader/dataUrl needed anymore,
+    // the backend receives real multipart file uploads now.
+    setForm((f) => ({ ...f, resume: file }));
+    setErrors((err) => ({ ...err, resume: "" }));
   };
 
   const validate = () => {
@@ -41,9 +41,22 @@ function ApplyModal({ job, open, onClose }) {
       return;
     }
     setSubmitting(true);
-    await submitApplication({ jobTitle: job.title, jobSlug: job.slug, ...form });
-    setSubmitting(false);
-    setSubmitted(true);
+    try {
+      await submitApplication({
+        job: job.id,                       // backend needs the FK id, not title/slug
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        cover_message: form.coverMessage,  // snake_case, matches the serializer
+        resume: form.resume,               // a real File now
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Application submit failed:", error.response?.data);
+      setErrors({ submit: "Something went wrong — please try again." });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -189,6 +202,12 @@ function ApplyModal({ job, open, onClose }) {
                     </label>
                     {errors.resume && <p className="text-red-400 text-xs mt-1.5">{errors.resume}</p>}
                   </div>
+
+                  {errors.submit && (
+                    <p className="text-red-400 text-sm bg-red-500/10 border border-red-500/25 rounded-lg px-4 py-3">
+                      {errors.submit}
+                    </p>
+                  )}
 
                   <button
                     type="submit"

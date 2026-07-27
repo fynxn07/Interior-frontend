@@ -31,9 +31,8 @@ export function useContactMessages() {
     return created;
   }, []);
 
-  const markAsRead = useCallback(async (id) => {
+  const fetchMessage = useCallback(async (id) => {
     const { data } = await axiosInstance.get(`/contacts/${id}/`);
-    setMessages((prev) => prev.map((m) => (m.id === id ? data : m)));
     return data;
   }, []);
 
@@ -55,5 +54,5 @@ export function useContactMessages() {
     await fetchMessages();
   }, [fetchMessages]);
 
-  return { messages, loading, error, sendMessage, markAsRead, replyToMessage, deleteMessage };
+  return { messages, loading, error, sendMessage, fetchMessage, replyToMessage, deleteMessage };
 }

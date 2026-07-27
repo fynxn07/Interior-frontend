@@ -23,7 +23,7 @@ function timeAgo(iso) {
 }
 
 function AdminQuotations() {
-    const { quotations, updateQuotation, deleteQuotation } = useQuotations();
+    const { quotations, updateQuotation, deleteQuotation, fetchQuotation } = useQuotations();
     const [statusFilter, setStatusFilter] = useState("All");
     const [viewing, setViewing] = useState(null);
     const [deleteTarget, setDeleteTarget] = useState(null);
@@ -99,8 +99,8 @@ function AdminQuotations() {
                         key={s}
                         onClick={() => setStatusFilter(s)}
                         className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-wider border transition-all duration-300 capitalize ${statusFilter === s
-                                ? "bg-[#8B7CFF] text-white border-[#8B7CFF]"
-                                : "text-gray-400 border-white/10 hover:border-[#8B7CFF]/50 hover:text-white"
+                            ? "bg-[#8B7CFF] text-white border-[#8B7CFF]"
+                            : "text-gray-400 border-white/10 hover:border-[#8B7CFF]/50 hover:text-white"
                             }`}
                     >
                         {s.replace("-", " ")} {statusCounts[s] ? `(${statusCounts[s]})` : ""}
@@ -140,7 +140,10 @@ function AdminQuotations() {
 
                             <div className="flex gap-2 flex-shrink-0">
                                 <button
-                                    onClick={() => setViewing(q)}
+                                    onClick={async () => {
+                                        const quotation = await fetchQuotation(q.id);
+                                        setViewing(quotation);
+                                    }}
                                     aria-label="View request"
                                     className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-gray-300 hover:text-[#8B7CFF] hover:border-[#8B7CFF]/60 transition-colors"
                                 >

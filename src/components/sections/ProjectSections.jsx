@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { FaArrowRight, FaMapMarkerAlt } from "react-icons/fa";
 import { useProjects } from "../../hooks/useProjects";
 
+
 function ProjectCard({ project, big = false }) {
   return (
     <motion.div
       whileHover={{ y: -8 }}
-      className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 hover:border-[#C8A96A]/50 transition-colors duration-300 ${
-        big ? "lg:col-span-2 lg:row-span-2 h-[320px] lg:h-[650px]" : "h-[260px] lg:h-[315px]"
-      }`}
+      className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 hover:border-[#C8A96A]/50 transition-colors duration-300 ${big ? "lg:col-span-2 lg:row-span-2 h-[320px] lg:h-[650px]" : "h-[260px] lg:h-[315px]"
+        }`}
     >
-      <Link to={`/projects/${project.slug}`}>
+      <Link to={`/projects/${project.id}`}>
         <img
           src={project.coverImage}
           alt={project.title}
@@ -41,10 +41,30 @@ function ProjectCard({ project, big = false }) {
 }
 
 function ProjectsSection() {
-  const { projects } = useProjects();
-  const featured = projects.filter((p) => p.featured).slice(0, 3);
+  const { projects, loading,error } = useProjects();
 
-  if (featured.length === 0) return null;
+  if (loading) {
+    return null;
+  }
+  if (error) {
+    return (
+      <section className="bg-[#0B0B0B] py-20 text-center">
+        <p className="text-red-400">
+          Failed to load featured projects.
+        </p>
+      </section>
+    );
+  }
+
+  const featured = Array.isArray(projects)
+    ? projects.filter((p) => p.featured).slice(0, 3)
+    : [];
+
+  if (featured.length === 0) {
+    return null;
+  }
+
+
 
   return (
     <section className="bg-[#0B0B0B] py-20 md:py-28">

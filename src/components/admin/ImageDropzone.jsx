@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaCloudUploadAlt, FaTimes, FaImage } from "react-icons/fa";
 
@@ -17,21 +17,35 @@ function ImageDropzone({
   //  - a File (a brand-new upload the admin just picked)
   //  - a string (an existing Cloudinary URL, when editing something already saved)
   //  - null/undefined (nothing selected yet)
-  const previewUrl = useMemo(() => {
-    if (!value) return null;
-    if (value instanceof File) return URL.createObjectURL(value);
-    return value;
-  }, [value]);
+  //
+  // previewUrl is now derived via state + effect (NOT useMemo). This matters:
+  // URL.createObjectURL is created fresh *inside* the effect every time it
+  // runs, so React 18 StrictMode's dev-only double-invoke (mount → cleanup →
+  // mount again) simply revokes one blob and mints a brand new valid one on
+  // the second pass, instead of revoking the only copy a memoized value ever
+  // had and leaving <img> pointed at a dead blob URL forever.
+  const [previewUrl, setPreviewUrl] = useState(null);
 
-  // Object URLs are held in browser memory until explicitly released —
-  // revoke the old one whenever it changes or the component unmounts.
   useEffect(() => {
+    if (!value) {
+      setPreviewUrl(null);
+      return;
+    }
+
+    if (typeof value === "string") {
+      setPreviewUrl(value);
+      return;
+    }
+
+    // value is a File — mint a fresh blob URL for this effect run and
+    // revoke *this specific* URL (not a shared memoized one) on cleanup.
+    const objectUrl = URL.createObjectURL(value);
+    setPreviewUrl(objectUrl);
+
     return () => {
-      if (value instanceof File && previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
+      URL.revokeObjectURL(objectUrl);
     };
-  }, [previewUrl, value]);
+  }, [value]);
 
   const handleFile = (file) => {
     if (!file || !file.type.startsWith("image/")) return;

@@ -1,29 +1,51 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaUserTie } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaUserTie,
+  FaImages,
+} from "react-icons/fa";
 import { useProjects } from "../../hooks/useProjects";
 
 function ProjectDetail() {
   const { id } = useParams();
 
-  const {
-    projects,
-    loading,
-    getById,
-  } = useProjects();
+  const { projects, fetchOne } = useProjects();
 
-  const project = getById(id);
+  const [project, setProject] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Wait until the projects have finished loading
+  useEffect(() => {
+    const loadProject = async () => {
+      try {
+        const data = await fetchOne(id);
+        setProject(data);
+      } catch (error) {
+        console.error("Failed to load project:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProject();
+  }, [id, fetchOne]);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#111111] flex items-center justify-center">
-        <p className="text-gray-400">Loading project...</p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-full border-2 border-[#C8A96A]/20 border-t-[#C8A96A] animate-spin" />
+          <p className="text-gray-500 text-sm uppercase tracking-[4px]">
+            Loading project
+          </p>
+        </div>
       </div>
     );
   }
 
-  // Show 404/redirect if the project doesn't exist
   if (!project) {
     return <Navigate to="/projects" replace />;
   }
@@ -54,6 +76,10 @@ function ProjectDetail() {
     },
   ];
 
+  console.log(project);
+
+  const isSingleImageGallery = project.gallery?.length === 1;
+
   return (
     <div className="bg-[#111111] min-h-screen">
       {/* Hero */}
@@ -82,7 +108,7 @@ function ProjectDetail() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="text-4xl sm:text-6xl font-bold text-white max-w-3xl"
+            className="text-4xl sm:text-6xl font-bold text-white max-w-3xl tracking-tight"
           >
             {project.title}
           </motion.h1>
@@ -102,7 +128,7 @@ function ProjectDetail() {
             <p className="uppercase tracking-[6px] text-[#C8A96A] mb-4 text-sm">
               Project Scope
             </p>
-            <p className="text-gray-300 leading-8 text-base sm:text-lg">
+            <p className="text-gray-300 leading-8 text-base sm:text-lg max-w-2xl">
               {project.duration}. Delivered by OK Decoration's in-house
               project management, joinery, and fit-out teams — from initial
               survey through to final handover.
@@ -124,19 +150,24 @@ function ProjectDetail() {
             transition={{ duration: 0.6 }}
             className="rounded-2xl p-8 border border-white/10 bg-white/[0.04] backdrop-blur-xl h-fit space-y-6"
           >
-            {meta.map((m) => {
+            {meta.map((m, i) => {
               const MIcon = m.icon;
               return (
-                <div key={m.label} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-[#C8A96A]/15 border border-[#C8A96A]/40 flex items-center justify-center text-[#C8A96A] flex-shrink-0">
-                    <MIcon size={14} />
+                <div key={m.label}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-full bg-[#C8A96A]/15 border border-[#C8A96A]/40 flex items-center justify-center text-[#C8A96A] flex-shrink-0">
+                      <MIcon size={14} />
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-gray-400">
+                        {m.label}
+                      </p>
+                      <p className="text-white font-medium">{m.value}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-gray-400">
-                      {m.label}
-                    </p>
-                    <p className="text-white font-medium">{m.value}</p>
-                  </div>
+                  {i < meta.length - 1 && (
+                    <div className="mt-6 border-t border-white/10" />
+                  )}
                 </div>
               );
             })}
@@ -145,27 +176,61 @@ function ProjectDetail() {
 
         {/* Gallery */}
         {project.gallery?.length > 0 && (
-          <div className="mt-16 grid sm:grid-cols-2 gap-6">
-            {project.gallery.map((img,index) => (
-              <motion.img
-                key={img.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                src={img.url}
-                alt={project.title}
-                className="rounded-2xl w-full h-[280px] sm:h-[320px] object-cover"
-              />
-            ))}
+          <div className="mt-20">
+            <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
+              <div>
+                <p className="uppercase tracking-[6px] text-[#C8A96A] mb-3 text-sm">
+                  The Details
+                </p>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white">
+                  Project Gallery
+                </h3>
+              </div>
+              <span className="inline-flex items-center gap-2 text-sm text-gray-500">
+                <FaImages className="text-[#C8A96A]/70" />
+                {project.gallery.length}{" "}
+                {project.gallery.length === 1 ? "Photo" : "Photos"}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+              {project.gallery.map((img, index) => (
+                <motion.div
+                  key={img.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.6,
+                    delay: (index % 6) * 0.08,
+                  }}
+                  className={`group relative overflow-hidden rounded-2xl border border-white/10 shadow-lg shadow-black/30 ${
+                    isSingleImageGallery
+                      ? "aspect-[21/9] sm:col-span-2 lg:col-span-3"
+                      : "aspect-[4/3]"
+                  }`}
+                >
+                  <img
+                    src={img.url}
+                    alt={project.title}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-transparent group-hover:ring-[#C8A96A]/50 transition-all duration-500" />
+                </motion.div>
+              ))}
+            </div>
           </div>
         )}
       </section>
 
-      {/* Related projects */}
+      {/* Related projects — renders only when related work exists */}
       {relatedProjects.length > 0 && (
         <section className="border-t border-white/10 bg-[#0b0b0b] py-16 md:py-20">
           <div className="max-w-screen-2xl mx-auto px-6 lg:px-10">
+            <p className="uppercase tracking-[6px] text-[#C8A96A] mb-3 text-sm">
+              Explore More
+            </p>
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-10">
               Related Projects
             </h3>

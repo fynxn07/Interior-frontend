@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FaTimes, FaImages, FaInfoCircle } from "react-icons/fa";
+import { FaTimes, FaImages } from "react-icons/fa";
 import ImageDropzone from "./ImageDropzone";
 import ModalPortal from "./ModalPortal";
 
@@ -16,7 +16,6 @@ const emptyForm = {
   gallery: [],
 };
 
-const GALLERY_TYPES = ["standard", "before", "after", "render"];
 
 function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
   const [form, setForm] = useState(emptyForm);
@@ -33,9 +32,9 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
         status: initialData.status || "",
         featured: !!initialData.featured,
         coverImage: initialData.coverImage || "",
-        gallery: (initialData.gallery || []).map((g) =>
-          typeof g === "string" ? { url: g, type: "standard" } : g
-        ),
+        gallery: (initialData.gallery || []).map((g) => ({
+          url: g.url || g,
+        })),
       });
     } else {
       setForm(emptyForm);
@@ -44,7 +43,11 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((f) => ({ ...f, [name]: type === "checkbox" ? checked : value }));
+
+    setForm((f) => ({
+      ...f,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleCoverImage = (file) => {
@@ -61,25 +64,23 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
         ...f.gallery,
         {
           url: file,
-          type: "standard",
         },
       ],
     }));
   };
 
-  const updateGalleryType = (index, type) =>
-    setForm((f) => {
-      const gallery = [...f.gallery];
-      gallery[index] = { ...gallery[index], type };
-      return { ...f, gallery };
-    });
-
-  const removeGalleryRow = (index) =>
-    setForm((f) => ({ ...f, gallery: f.gallery.filter((_, i) => i !== index) }));
+  const removeGalleryRow = (index) => {
+    setForm((f) => ({
+      ...f,
+      gallery: f.gallery.filter((_, i) => i !== index),
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!form.title.trim() || !form.coverImage) return;
+
     setSaving(true);
     await onSubmit(form);
     setSaving(false);
@@ -256,7 +257,7 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         {form.gallery.map((item, index) => (
-                          <div key={index} className="space-y-1.5 min-w-0">
+                          <div key={index}>
                             <ImageDropzone
                               value={item.url}
                               onChange={(file) => {
@@ -264,7 +265,6 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
                                   const gallery = [...f.gallery];
 
                                   gallery[index] = {
-                                    ...gallery[index],
                                     url: file,
                                   };
 
@@ -277,28 +277,13 @@ function ProjectFormModal({ open, onClose, onSubmit, initialData }) {
                               onRemove={() => removeGalleryRow(index)}
                               aspect="aspect-square"
                             />
-                            <select
-                              value={item.type}
-                              onChange={(e) => updateGalleryType(index, e.target.value)}
-                              className="w-full min-w-0 bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-[11px] text-white focus:outline-none focus:border-[#8B7CFF]"
-                            >
-                              {GALLERY_TYPES.map((t) => (
-                                <option key={t} value={t} className="bg-[#131826]">
-                                  {t}
-                                </option>
-                              ))}
-                            </select>
+      
                           </div>
                         ))}
 
                         <ImageDropzone value="" onChange={addGalleryRow} aspect="aspect-square" />
                       </div>
 
-                      <p className="flex items-start gap-2 text-gray-600 text-[11px] mt-3">
-                        <FaInfoCircle className="mt-0.5 flex-shrink-0" />
-                        Tag a pair as "before" + "after" to enable the
-                        interactive slider, or "render" for 3D visuals.
-                      </p>
                     </div>
 
                     <div className="flex gap-3 mt-8 pt-6 border-t border-white/10">

@@ -6,11 +6,12 @@ import ProjectFormModal from "../../components/admin/ProjectFormModal";
 import ConfirmDeleteModal from "../../components/admin/ConfirmDeleteModal";
 
 function AdminProjects() {
-  const { projects, addProject, updateProject, deleteProject } = useProjects();
+  const { projects, addProject, updateProject, deleteProject, fetchOne  } = useProjects();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [filter, setFilter] = useState("All");
+  const [loadingEdit, setLoadingEdit] = useState(false);
 
   const categories = useMemo(
     () => ["All", ...new Set(projects.map((p) => p.category).filter(Boolean))],
@@ -25,9 +26,17 @@ function AdminProjects() {
     setModalOpen(true);
   };
 
-  const openEditModal = (project) => {
-    setEditingProject(project);
-    setModalOpen(true);
+  const openEditModal = async (project) => {
+    setLoadingEdit(true);
+    try {
+      const fullProject = await fetchOne(project.id); // full detail, includes gallery
+      setEditingProject(fullProject);
+      setModalOpen(true);
+    } catch (err) {
+      console.error("Failed to load project details:", err);
+    } finally {
+      setLoadingEdit(false);
+    }
   };
 
   const handleSubmit = (formData) => {
@@ -67,11 +76,10 @@ function AdminProjects() {
           <button
             key={cat}
             onClick={() => setFilter(cat)}
-            className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-wider border transition-all duration-300 ${
-              filter === cat
+            className={`px-4 py-1.5 rounded-full text-xs uppercase tracking-wider border transition-all duration-300 ${filter === cat
                 ? "bg-[#8B7CFF] text-white border-[#8B7CFF]"
                 : "text-gray-400 border-white/10 hover:border-[#8B7CFF]/50 hover:text-white"
-            }`}
+              }`}
           >
             {cat}
           </button>
@@ -126,6 +134,7 @@ function AdminProjects() {
                   <div className="flex gap-2 flex-shrink-0">
                     <button
                       onClick={() => openEditModal(project)}
+                      disabled={loadingEdit}
                       aria-label="Edit"
                       className="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-gray-300 hover:text-[#8B7CFF] hover:border-[#8B7CFF]/60 transition-colors"
                     >

@@ -6,12 +6,31 @@ export function buildFormData(data) {
 
     if (value instanceof File) {
       formData.append(key, value);
-    } else if (Array.isArray(value)) {
-      // Backend accepts newline-separated text for scope/responsibilities/requirements
-      formData.append(key, value.join("\n"));
-    } else if (typeof value === "boolean") {
+    }
+
+    else if (Array.isArray(value)) {
+
+      // Multiple image upload
+      if (key === "gallery_images") {
+        value.forEach((file) => {
+          if (file instanceof File) {
+            formData.append("gallery_images", file);
+          }
+        });
+      }
+
+      // Existing behaviour for text arrays
+      else {
+        formData.append(key, value.join("\n"));
+      }
+
+    }
+
+    else if (typeof value === "boolean") {
       formData.append(key, value ? "true" : "false");
-    } else {
+    }
+
+    else {
       formData.append(key, value);
     }
   });

@@ -1,19 +1,51 @@
 import { Link, NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-
+import logoGold from "../../assets/logos/logo-iconz.png";
 import { navigationLinks } from "../../utils/navigation";
 import MobileMenu from "./MobileMenu";
 
 function Navbar() {
   const [openMenu, setOpenMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showMobileNavbar, setShowMobileNavbar] = useState(true);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    lastScrollY.current = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 40);
+
+      // Desktop always visible — this behavior never applies above the lg breakpoint
+      if (window.innerWidth >= 1024) {
+        setShowMobileNavbar(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      // Keep the bar visible whenever the menu itself is open
+      if (openMenu) {
+        setShowMobileNavbar(true);
+        lastScrollY.current = currentScrollY;
+        return;
+      }
+
+      if (currentScrollY < 60) {
+        setShowMobileNavbar(true);
+      } else if (currentScrollY > lastScrollY.current) {
+        setShowMobileNavbar(false); // scrolling down -> hide
+      } else {
+        setShowMobileNavbar(true); // scrolling up -> reveal
+      }
+
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [openMenu]);
 
   return (
     <header
@@ -21,16 +53,29 @@ function Navbar() {
         scrolled
           ? "bg-[#111111]/70 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg shadow-black/20"
           : "bg-gradient-to-b from-black/50 to-transparent py-6"
-      }`}
+      } ${
+        // Only ever translates on mobile — lg: cancels it back to 0 regardless of state,
+        // so desktop is never touched by this behavior at any scroll position.
+        showMobileNavbar ? "translate-y-0" : "-translate-y-full"
+      } lg:translate-y-0`}
     >
       <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 w-full">
         <div className="flex items-center justify-between w-full">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 text-xl font-bold tracking-wide text-white">
-            OK<span className="text-[#C8A96A]">Decoration</span>
+          <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <img
+              src={logoGold}
+              alt="OK Decoration"
+              className={`w-auto transition-all duration-500 ${scrolled ? "h-9" : "h-11"}`}
+            />
+            <span className="hidden sm:flex flex-col leading-none">
+              <span className="text-[9px] uppercase tracking-[3px] text-white/40 mt-1">
+                Since 1978
+              </span>
+            </span>
           </Link>
 
-          {/* Desktop nav — all 6 links fit in one row now, no dropdown needed */}
+          {/* Desktop nav — untouched */}
           <nav className="hidden lg:flex items-center gap-7">
             {navigationLinks.map((item) => (
               <NavLink
@@ -48,7 +93,7 @@ function Navbar() {
             ))}
           </nav>
 
-          {/* Right side */}
+          {/* Right side — untouched */}
           <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
             <Link
               to="/quotation"

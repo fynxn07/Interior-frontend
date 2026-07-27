@@ -1,7 +1,7 @@
 import axiosInstance from "./axiosInstance";
 
 // Update this path to match your urls.py — e.g. path("admin/login/", AdminLoginView.as_view())
-const ADMIN_LOGIN_ENDPOINT = "/auth/admin/login/";
+const ADMIN_LOGIN_ENDPOINT = "/auth/login/";
 
 export async function adminLogin(email, password) {
   const response = await axiosInstance.post(ADMIN_LOGIN_ENDPOINT, {

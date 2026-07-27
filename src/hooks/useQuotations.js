@@ -21,6 +21,12 @@ export function useQuotations() {
     }
   }, []);
 
+
+  const fetchQuotation = useCallback(async (id) => {
+    const { data } = await axiosInstance.get(`/quotations/${id}/`);
+    return data;
+  }, []);
+
   useEffect(() => {
     fetchQuotations();
   }, [fetchQuotations]);
@@ -58,5 +64,5 @@ export function useQuotations() {
     await fetchQuotations();
   }, [fetchQuotations]);
 
-  return { quotations, loading,error, submitQuotation, updateQuotation, deleteQuotation };
+  return { quotations, loading, error, submitQuotation, updateQuotation, deleteQuotation, fetchQuotation };
 }

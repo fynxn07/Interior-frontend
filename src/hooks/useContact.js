@@ -21,9 +21,7 @@ export function useContactMessages() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchMessages();
-  }, [fetchMessages]);
+
 
   // Public — no auth needed, used by the Contact page form
   const sendMessage = useCallback(async (data) => {
@@ -54,5 +52,5 @@ export function useContactMessages() {
     await fetchMessages();
   }, [fetchMessages]);
 
-  return { messages, loading, error, sendMessage, fetchMessage, replyToMessage, deleteMessage };
+  return { messages, loading, error, fetchMessages, sendMessage, fetchMessage, replyToMessage, deleteMessage };
 }

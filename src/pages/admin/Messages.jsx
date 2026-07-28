@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     FaEye, FaTrash, FaEnvelopeOpenText, FaEnvelope, FaCheckCircle, FaCircle,
@@ -23,10 +23,14 @@ function timeAgo(iso) {
 }
 
 function AdminMessages() {
-    const { messages, deleteMessage, fetchMessage, replyToMessage } = useContactMessages();
+    const { messages, fetchMessages, deleteMessage, fetchMessage, replyToMessage } = useContactMessages();
     const [filter, setFilter] = useState("All");
     const [viewing, setViewing] = useState(null);
     const [deleteTarget, setDeleteTarget] = useState(null);
+
+    useEffect(() => {
+        fetchMessages();
+    }, [fetchMessages]);
 
     const counts = useMemo(() => {
         const c = { All: messages.length };
@@ -38,7 +42,7 @@ function AdminMessages() {
 
     const filtered =
         filter === "All" ? messages : messages.filter((m) => m.status === filter);
-        
+
 
     const handleView = async (message) => {
         try {

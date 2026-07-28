@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     FaPlus, FaEdit, FaTrash, FaMapMarkerAlt, FaBriefcase,
@@ -26,7 +26,7 @@ function timeAgo(iso) {
 
 function AdminCareers() {
     const {
-        jobs, applications, addJob, updateJob, deleteJob,
+        jobs, applications, fetchJobs, fetchApplications, addJob, updateJob, deleteJob,
         updateApplicationStatus, deleteApplication,
     } = useCareers();
 
@@ -40,6 +40,14 @@ function AdminCareers() {
     // Application state
     const [viewingApplication, setViewingApplication] = useState(null);
     const [deleteAppTarget, setDeleteAppTarget] = useState(null);
+
+    useEffect(() => {
+        if (tab === "jobs") {
+            fetchJobs();
+        } else {
+            fetchApplications();
+        }
+    }, [tab, fetchJobs, fetchApplications]);
 
     const openAddJob = () => {
         setEditingJob(null);

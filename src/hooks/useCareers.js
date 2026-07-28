@@ -20,8 +20,11 @@ export function useCareers() {
 
   useEffect(() => {
     setLoading(true);
-    Promise.all([fetchJobs(), fetchApplications()]).finally(() => setLoading(false));
-  }, [fetchJobs, fetchApplications]);
+
+    fetchJobs().finally(() => {
+      setLoading(false);
+    });
+  }, [fetchJobs]);
 
   const getBySlug = useCallback(
     (slug) => jobs.find((j) => j.slug === slug),
@@ -63,7 +66,8 @@ export function useCareers() {
   }, [fetchApplications]);
 
   return {
-    jobs, applications, loading, getBySlug,
+    jobs, applications, loading,  getBySlug,
+    fetchJobs,fetchApplications,
     addJob, updateJob, deleteJob,
     submitApplication, updateApplicationStatus, deleteApplication,
   };

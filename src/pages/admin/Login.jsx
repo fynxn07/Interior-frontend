@@ -27,10 +27,10 @@ function AdminLogin() {
 };
 
   return (
-    <div className="relative min-h-screen bg-[#0B0B0B] flex items-center justify-center overflow-hidden px-6">
+    <div className="relative min-h-screen bg-white/5 flex items-center justify-center px-6">
       {/* Ambient background glow */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#C8A96A]/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#C8A96A]/[0.06] rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#C8A96A]/10 rounded-full  pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#C8A96A]/[0.06] rounded-full  pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -49,7 +49,7 @@ function AdminLogin() {
         </div>
 
         {/* Glass card */}
-        <div className="rounded-2xl border border-white/10 bg-[#181818] p-8 sm:p-10 shadow-2xl shadow-black/40">
+        <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-8 sm:p-10 shadow-2xl shadow-black/40">
           <h2 className="text-xl sm:text-2xl font-bold text-white">
             Welcome Back
           </h2>

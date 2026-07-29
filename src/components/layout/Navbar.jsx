@@ -18,14 +18,12 @@ function Navbar() {
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 40);
 
-      // Desktop always visible — this behavior never applies above the lg breakpoint
       if (window.innerWidth >= 1024) {
         setShowMobileNavbar(true);
         lastScrollY.current = currentScrollY;
         return;
       }
 
-      // Keep the bar visible whenever the menu itself is open
       if (openMenu) {
         setShowMobileNavbar(true);
         lastScrollY.current = currentScrollY;
@@ -35,9 +33,9 @@ function Navbar() {
       if (currentScrollY < 60) {
         setShowMobileNavbar(true);
       } else if (currentScrollY > lastScrollY.current) {
-        setShowMobileNavbar(false); // scrolling down -> hide
+        setShowMobileNavbar(false);
       } else {
-        setShowMobileNavbar(true); // scrolling up -> reveal
+        setShowMobileNavbar(true);
       }
 
       lastScrollY.current = currentScrollY;
@@ -52,12 +50,8 @@ function Navbar() {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
         scrolled
           ? "bg-[#111111]/70 backdrop-blur-xl border-b border-white/10 py-3 shadow-lg shadow-black/20"
-          : "bg-gradient-to-b from-black/50 to-transparent py-6"
-      } ${
-        // Only ever translates on mobile — lg: cancels it back to 0 regardless of state,
-        // so desktop is never touched by this behavior at any scroll position.
-        showMobileNavbar ? "translate-y-0" : "-translate-y-full"
-      } lg:translate-y-0`}
+          : "bg-gradient-to-b from-black/70 via-black/40 to-transparent lg:from-black/50 lg:via-black/20 lg:to-transparent py-4 lg:py-6"
+      } ${showMobileNavbar ? "translate-y-0" : "-translate-y-full"} lg:translate-y-0`}
     >
       <div className="max-w-screen-2xl mx-auto px-6 lg:px-10 w-full">
         <div className="flex items-center justify-between w-full">
@@ -66,7 +60,7 @@ function Navbar() {
             <img
               src={logoGold}
               alt="OK Decoration"
-              className={`w-auto transition-all duration-500 ${scrolled ? "h-9" : "h-11"}`}
+              className={`w-auto transition-all duration-500 ${scrolled ? "h-8 lg:h-9" : "h-9 lg:h-11"}`}
             />
             <span className="hidden sm:flex flex-col leading-none">
               <span className="text-[9px] uppercase tracking-[3px] text-white/40 mt-1">

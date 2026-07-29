@@ -34,16 +34,16 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
 
-      <div className="relative z-10 mx-auto flex h-full max-w-screen-2xl items-center px-6 lg:px-10">
+      <div className="relative z-10 mx-auto flex h-full max-w-screen-2xl items-center px-6 lg:px-10 pt-24 lg:pt-0">
         <div className="max-w-2xl">
           <motion.p
             variants={fadeUp}
             initial="hidden"
             animate="show"
             custom={0.1}
-            className="mb-5 uppercase tracking-[6px] text-[#C8A96A] text-sm"
+            className="mb-4 lg:mb-5 uppercase tracking-[6px] text-[#C8A96A] text-sm"
           >
-            {/* Interior Design · Fit-Out · Building Maintenance */}
+            Interior Design · Fit-Out · Building Maintenance
           </motion.p>
 
           <motion.h1
@@ -51,7 +51,7 @@ function Hero() {
             initial="hidden"
             animate="show"
             custom={0.25}
-            className="text-5xl md:text-6xl font-bold leading-tight text-white"
+            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight text-white"
           >
             Four Decades of
             <br />
@@ -63,7 +63,7 @@ function Hero() {
             initial="hidden"
             animate="show"
             custom={0.4}
-            className="mt-6 max-w-xl text-base md:text-lg leading-8 text-gray-300"
+            className="mt-5 lg:mt-6 max-w-xl text-sm sm:text-base md:text-lg leading-7 md:leading-8 text-gray-300"
           >
             Since 1978, OK Decoration has transformed complex visions into
             reality across the U.A.E. — turnkey interiors for residential
@@ -75,17 +75,17 @@ function Hero() {
             initial="hidden"
             animate="show"
             custom={0.55}
-            className="mt-10 flex flex-wrap gap-4"
+            className="mt-8 lg:mt-10 flex flex-wrap gap-3 lg:gap-4"
           >
             <Link
               to="/projects"
-              className="rounded-lg bg-[#C8A96A] px-8 py-3.5 font-semibold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-yellow-500"
+              className="rounded-lg bg-[#C8A96A] px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-yellow-500"
             >
               Explore Projects
             </Link>
             <Link
               to="/contact"
-              className="rounded-lg border border-[#C8A96A] px-8 py-3.5 font-semibold text-[#C8A96A] transition-all duration-300 hover:bg-[#C8A96A] hover:text-black"
+              className="rounded-lg border border-[#C8A96A] px-6 sm:px-8 py-3 sm:py-3.5 text-sm sm:text-base font-semibold text-[#C8A96A] transition-all duration-300 hover:bg-[#C8A96A] hover:text-black"
             >
               Get Free Consultation
             </Link>
@@ -96,19 +96,18 @@ function Hero() {
             initial="hidden"
             animate="show"
             custom={0.75}
-            className="mt-16 flex gap-10"
+            className="mt-10 lg:mt-16 flex gap-6 sm:gap-10"
           >
             {stats.map((s) => (
               <div key={s.label}>
-                <h2 className="text-3xl font-bold text-[#C8A96A]">{s.value}</h2>
-                <p className="mt-1 text-sm text-gray-400">{s.label}</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#C8A96A]">{s.value}</h2>
+                <p className="mt-1 text-xs sm:text-sm text-gray-400">{s.label}</p>
               </div>
             ))}
           </motion.div>
         </div>
       </div>
 
-      {/* Floating glass badge — pushed lower + narrower so it can't collide with the headline */}
       <motion.div
         initial={{ opacity: 0, x: 40 }}
         animate={{ opacity: 1, x: 0 }}

@@ -36,15 +36,7 @@ function Hero() {
 
       <div className="relative z-10 mx-auto flex h-full max-w-screen-2xl items-center px-6 lg:px-10 pt-24 lg:pt-0">
         <div className="max-w-2xl">
-          <motion.p
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            custom={0.1}
-            className="mb-4 lg:mb-5 uppercase tracking-[6px] text-[#C8A96A] text-sm"
-          >
-            Interior Design · Fit-Out · Building Maintenance
-          </motion.p>
+      
 
           <motion.h1
             variants={fadeUp}

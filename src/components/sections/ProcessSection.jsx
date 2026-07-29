@@ -75,11 +75,11 @@ function ProcessSection() {
           {process.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut", }}
-              viewport={{ once: true,amount:0.2 }}
-              whileHover={{ y: -10, scale: 1.02, }}
+              transition={{ duration: 0.6, delay: index * 0.12 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
               className="relative rounded-2xl p-7 sm:p-8 border border-white/10 bg-white/[0.04] backdrop-blur-xl transition-all duration-300 hover:border-[#C8A96A]/60 hover:bg-white/[0.07]"
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#C8A96A] text-black flex items-center justify-center text-xl sm:text-2xl">

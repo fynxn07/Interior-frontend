@@ -87,14 +87,14 @@ function Sidebar({ open, onClose }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onClose}
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-black/70 z-40 lg:hidden"
             />
             <motion.aside
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
-              className="fixed top-0 left-0 h-screen w-72 bg-[#0D1220] border-r border-white/10 z-50 lg:hidden"
+              transition={{duration: 0.25, ease:"easeOut" }}
+              className="fixed top-0 left-0 h-screen w-72 bg-[#0D1220] border-r border-white/10 z-50 lg:hidden will-change-transform"
             >
               <button
                 onClick={onClose}

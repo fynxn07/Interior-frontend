@@ -52,10 +52,10 @@ function WhyChooseUs() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left — image + glass stat */}
           <motion.div
-            initial={{ opacity: 0, x: -80 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.5,ease:"easeOut" }}
+            viewport={{ once: true,amount:0.2 }}
             className="relative"
           >
             <img

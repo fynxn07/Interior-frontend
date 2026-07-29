@@ -49,7 +49,7 @@ function AdminLogin() {
         </div>
 
         {/* Glass card */}
-        <div className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl p-8 sm:p-10 shadow-2xl shadow-black/40">
+        <div className="rounded-2xl border border-white/10 bg-[#181818] p-8 sm:p-10 shadow-2xl shadow-black/40">
           <h2 className="text-xl sm:text-2xl font-bold text-white">
             Welcome Back
           </h2>

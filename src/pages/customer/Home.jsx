@@ -15,11 +15,11 @@ function Home() {
     <>
       <Hero />
       <AboutSection />
-      <ProcessSection />
       <WhyChooseUs />
       <StatsSection />
-      <ServicesSection />
+      <ProcessSection />
       <ProjectsSection />
+      <ServicesSection />
       <ClientsSection />
       <CTASection />
       <FooterSection />

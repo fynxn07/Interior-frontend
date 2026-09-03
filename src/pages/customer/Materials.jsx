@@ -1,10 +1,7 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useMaterials } from "../../hooks/useMaterials";
-
-function resolveLogo(logo) {
-  return typeof logo === "string" ? logo : logo;
-}
+import PremiumCard from "../../components/ui/PremiumCard";
 
 function Materials() {
   const { materials, groups, loading } = useMaterials();
@@ -23,9 +20,7 @@ function Materials() {
       <div className="min-h-screen bg-[#111111] flex items-center justify-center">
         <div className="text-center">
           <div className="w-10 h-10 mx-auto rounded-full border-4 border-[#C8A96A]/20 border-t-[#C8A96A] animate-spin" />
-          <p className="mt-4 text-gray-400 text-sm">
-            Loading materials...
-          </p>
+          <p className="mt-4 text-gray-400 text-sm">Loading materials...</p>
         </div>
       </div>
     );
@@ -33,7 +28,7 @@ function Materials() {
 
   return (
     <div className="bg-[#111111] min-h-screen">
-      {/* Header */}
+      {/* Header — unchanged */}
       <section className="relative pt-40 pb-16 px-6 lg:px-10 text-center border-b border-white/10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#C8A96A]/[0.06] to-transparent pointer-events-none" />
         <motion.p
@@ -72,10 +67,11 @@ function Materials() {
             <button
               key={g}
               onClick={() => setActiveGroup(g)}
-              className={`px-5 py-2 rounded-full text-sm uppercase tracking-wider border transition-all duration-300 ${activeGroup === g
+              className={`px-5 py-2 rounded-full text-sm uppercase tracking-wider border transition-all duration-300 ${
+                activeGroup === g
                   ? "bg-[#C8A96A] text-black border-[#C8A96A]"
                   : "text-white/80 border-white/20 hover:border-[#C8A96A] hover:text-[#C8A96A]"
-                }`}
+              }`}
             >
               {g}
             </button>
@@ -94,29 +90,30 @@ function Materials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: (index % 8) * 0.06 }}
-              whileHover={{ y: -6 }}
-              className="group relative rounded-2xl overflow-hidden border border-white/10 hover:border-[#C8A96A]/70 transition-colors duration-300 shadow-lg shadow-black/30 hover:shadow-[#C8A96A]/10"
+              whileHover={{ y: -8 }}
             >
-              {/* Logo window — clear, uncropped-feeling, warm card not flat white */}
-              <div className="relative flex items-center justify-center h-32 sm:h-36 bg-gradient-to-br from-[#fdfcfa] to-[#efe8db] px-6 py-5">
-                <img
-                  src={material.logo}
-                  alt={material.brand}
-                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/50 to-transparent" />
-              </div>
+              <PremiumCard className="shadow-lg shadow-black/30 hover:shadow-[#C8A96A]/20 transition-shadow duration-500">
+                {/* Logo window — untouched, still white, still object-contain */}
+                <div className="relative flex items-center justify-center h-32 sm:h-36 bg-white px-6 py-5">
+                  <img
+                    src={material.logo}
+                    alt={material.brand}
+                    className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-black/5 to-transparent" />
+                </div>
 
-              {/* Details band */}
-              <div className="bg-[#171717] px-5 py-4 border-t border-white/5 text-center">
-                <p className="text-white text-sm sm:text-base font-semibold">
-                  {material.brand}
-                </p>
-                <p className="text-[#C8A96A] text-xs uppercase tracking-wider mt-1.5">
-                  {material.category}
-                </p>
-                <p className="text-gray-500 text-xs mt-1">{material.country}</p>
-              </div>
+                {/* Details band — untouched */}
+                <div className="bg-[#171717] px-5 py-4 border-t border-white/5 text-center">
+                  <p className="text-white text-sm sm:text-base font-semibold">
+                    {material.brand}
+                  </p>
+                  <p className="text-[#C8A96A] text-xs uppercase tracking-wider mt-1.5">
+                    {material.category}
+                  </p>
+                  <p className="text-gray-500 text-xs mt-1">{material.country}</p>
+                </div>
+              </PremiumCard>
             </motion.div>
           ))}
         </motion.div>

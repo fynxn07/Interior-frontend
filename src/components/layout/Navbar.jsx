@@ -1,7 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
-import logoGold from "../../assets/logos/logo-iconz.png";
 import { navigationLinks } from "../../utils/navigation";
 import MobileMenu from "./MobileMenu";
 
@@ -58,7 +57,7 @@ function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
             <img
-              src={logoGold}
+              src="/logo-iconz.png"
               alt="OK Decoration"
               className={`w-auto transition-all duration-500 ${scrolled ? "h-8 lg:h-9" : "h-9 lg:h-11"}`}
             />

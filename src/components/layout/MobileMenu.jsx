@@ -3,7 +3,6 @@ import { NavLink, Link } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 import Portal from "../ui/Portal";
 import { navigationLinks } from "../../utils/navigation";
-import logoGold from "../../assets/logos/logo-iconz.png";
 
 function MobileMenu({ openMenu, setOpenMenu }) {
   return (
@@ -29,7 +28,7 @@ function MobileMenu({ openMenu, setOpenMenu }) {
               className="fixed top-0 right-0 z-[201] h-full w-[80%] max-w-sm flex flex-col bg-[#111111] border-l border-white/10 lg:hidden"
             >
               <div className="flex items-center justify-between px-6 h-20 border-b border-white/10 flex-shrink-0">
-                <img src={logoGold} alt="OK Decoration" className="h-9 w-auto" />
+                <img src="/logo-iconz.png" alt="OK Decoration" className="h-9 w-auto" />
                 <button
                   onClick={() => setOpenMenu(false)}
                   aria-label="Close menu"

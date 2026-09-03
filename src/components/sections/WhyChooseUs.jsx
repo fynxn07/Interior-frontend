@@ -2,30 +2,30 @@ import { motion } from "framer-motion";
 import { FaHandshake, FaLayerGroup, FaMedal } from "react-icons/fa";
 
 const whyImage =
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop";
+  "https://i.pinimg.com/736x/6d/bc/b3/6dbcb3cabfeda15752843870137653e2.jpg";
 
 // Straight from the "Our Values" slide (02)
 const values = [
   {
     id: 1,
     icon: <FaHandshake />,
-    title: "It's Not Business, It's Personal",
+    title: "A Legacy Since 1978",
     description:
-      "OK Decoration is known in the industry for the strong personal relationships we build. Timely, astute responses and the direct involvement of our Managing Director at every stage let clients know their business matters to us.",
+      "Four decades of continuous operation in the UAE speak for themselves. Generations of clients have returned to us because our name stands for reliability, honesty, and enduring workmanship.",
   },
   {
     id: 2,
     icon: <FaLayerGroup />,
-    title: "No Job Too Different",
+    title: "Transparency at Every Step",
     description:
-      "We specialise in the extraordinary. No project is too challenging or too unusual — our design, manufacturing, and construction specialisms reflect local culture and consistently surpass client expectations.",
+      "Clear quotations, honest advice, and regular progress reporting. Our clients always know where their project stands — no surprises, no hidden costs.",
   },
   {
     id: 3,
     icon: <FaMedal />,
-    title: "Committed to You",
+    title: "Flexible & Responsive",
     description:
-      "Unwavering dedication to a project underpins our entire work ethic, from beginning to end. As we expand across Europe and Africa, we remain pioneers of construction and design in the region.",
+      "Design changes, tight deadlines, occupied premises we adapt. Our teams work around client operations and respond quickly when requirements evolve.",
   },
 ];
 

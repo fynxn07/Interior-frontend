@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { FaHandshake, FaLayerGroup, FaMedal } from "react-icons/fa";
-
-const whyImage =
-  "https://i.pinimg.com/736x/6d/bc/b3/6dbcb3cabfeda15752843870137653e2.jpg";
+import whyImage from "../../assets/images/img11.jpg";
 
 // Straight from the "Our Values" slide (02)
 const values = [

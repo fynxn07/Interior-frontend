@@ -41,7 +41,7 @@ function ProjectCard({ project, big = false }) {
 }
 
 function ProjectsSection() {
-  const { projects, loading,error } = useProjects();
+  const { projects, loading, error } = useProjects();
 
   if (loading) {
     return null;
@@ -57,7 +57,13 @@ function ProjectsSection() {
   }
 
   const featured = Array.isArray(projects)
-    ? projects.filter((p) => p.featured).slice(0, 3)
+    ? projects
+      .filter((p) => p.featured)
+      .sort(
+        (a, b) =>
+          new Date(b.created_at) - new Date(a.created_at)
+      )
+      .slice(0, 3)
     : [];
 
   if (featured.length === 0) {

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -30,4 +30,284 @@ body {
 
 .animate-border-spin {
   animation: border-spin 4s linear infinite;
+} */
+
+
+/* =========================================================
+   GOOGLE FONTS
+========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+/* =========================================================
+   TAILWIND V4 THEME
+========================================================= */
+
+@theme {
+  /* Typography */
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+
+  /* Brand Gold */
+
+  --color-gold-200: #f5e8c7;
+  --color-gold-300: #e6d3a3;
+  --color-gold-400: #d8be81;
+  --color-gold-500: #c8a96a;
+  --color-gold-600: #b29150;
+  --color-gold-700: #8e7134;
+
+  /* Noir */
+
+  --color-noir-950: #070707;
+  --color-noir-900: #0c0c0d;
+  --color-noir-850: #111113;
+  --color-noir-800: #18181b;
+
+  /* Editorial letter spacing */
+
+  --tracking-widest2: 0.22em;
+  --tracking-widest3: 0.32em;
+}
+
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+html {
+  background: #070707;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #070707;
+  color: #ffffff;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* =========================================================
+   TYPOGRAPHY HELPERS
+========================================================= */
+
+.font-display {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+.font-body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+/* =========================================================
+   GOLD HELPERS
+========================================================= */
+
+.text-gold {
+  color: #c8a96a;
+}
+
+.bg-gold {
+  background-color: #c8a96a;
+}
+
+.border-gold {
+  border-color: #c8a96a;
+}
+
+/* =========================================================
+   GOLD GRADIENT TEXT
+========================================================= */
+
+.text-gold-gradient {
+  background: linear-gradient(
+    135deg,
+    #fff6de 0%,
+    #d8be81 35%,
+    #c8a96a 65%,
+    #eadbba 85%,
+    #9e7d38 100%
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================================================
+   LUXURY GLASS
+========================================================= */
+
+.luxury-glass {
+  background: rgba(10, 10, 12, 0.55);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border: 1px solid rgba(200, 169, 106, 0.18);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.luxury-glass-soft {
+  background: rgba(10, 10, 12, 0.38);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================================
+   HERO EFFECTS
+========================================================= */
+
+.hero-vignette {
+  background: radial-gradient(
+    circle at 75% 35%,
+    rgba(0, 0, 0, 0.08) 0%,
+    rgba(8, 8, 10, 0.72) 70%,
+    rgba(5, 5, 7, 0.96) 100%
+  );
+}
+
+.lower-third-scrim {
+  background: linear-gradient(
+    to top,
+    rgba(7, 7, 9, 0.98) 0%,
+    rgba(7, 7, 9, 0.88) 22%,
+    rgba(7, 7, 9, 0.62) 48%,
+    rgba(7, 7, 9, 0.2) 75%,
+    transparent 100%
+  );
+}
+
+.top-bar-scrim {
+  background: linear-gradient(
+    to bottom,
+    rgba(7, 7, 9, 0.85) 0%,
+    rgba(7, 7, 9, 0.4) 60%,
+    transparent 100%
+  );
+}
+
+.hairline-gold {
+  background: linear-gradient(
+    90deg,
+    rgba(200, 169, 106, 0.8) 0%,
+    rgba(200, 169, 106, 0.1) 100%
+  );
+}
+
+/* =========================================================
+   HERO IMAGE PERFORMANCE
+========================================================= */
+
+.hero-bg {
+  will-change: transform;
+}
+
+/* =========================================================
+   BORDER ANIMATION
+========================================================= */
+
+@keyframes border-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-border-spin {
+  animation: border-spin 4s linear infinite;
+}
+
+/* =========================================================
+   PREMIUM FADE ANIMATIONS
+========================================================= */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-up {
+  animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* =========================================================
+   SUBTLE PULSE
+========================================================= */
+
+@keyframes subtlePulse {
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: subtlePulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+::selection {
+  background: #c8a96a;
+  color: #070707;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

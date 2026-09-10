@@ -59,7 +59,7 @@ function WhyChooseUs() {
             <img
               src={whyImage}
               alt="OK Decoration Craftsmanship"
-              className="rounded-3xl h-[340px] sm:h-[460px] lg:h-[620px] w-full object-cover"
+              className="rounded-3xl h-[520px] sm:h-[560px] lg:h-[620px] w-full object-cover object center"
             />
 
             {/* Genuine glass card — backdrop-blur, translucent, gold border */}

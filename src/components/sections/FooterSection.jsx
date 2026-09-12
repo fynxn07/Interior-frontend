@@ -68,7 +68,7 @@ function FooterSection() {
               </a>
 
               <a
-                href="mailto:okdecor6776@gmail.com"
+                href="mailto:info@okdecoration.ae"
                 aria-label="Email"
                 className="w-11 h-11 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl flex justify-center items-center hover:bg-[#C8A96A] hover:text-black hover:border-[#C8A96A] transition-all duration-300"
               >
@@ -139,11 +139,11 @@ function FooterSection() {
               </a>
 
               <a
-                href="mailto:okdecor6776@gmail.com"
+                href="mailto:info@okdecoration.ae"
                 className="flex gap-3 text-gray-400 hover:text-[#C8A96A] transition-colors break-all"
               >
                 <FaEnvelope className="text-[#C8A96A] mt-0.5 flex-shrink-0" />
-                <span>okdecor6776@gmail.com</span>
+                <span>info@okdecoration.ae</span>
               </a>
 
               <div className="flex gap-3">

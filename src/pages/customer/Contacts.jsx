@@ -44,8 +44,8 @@ const infoCards = [
     label: "Email",
     lines: [
       {
-        text: "okdecor6776@gmail.com",
-        href: "mailto:okdecor6776@gmail.com",
+        text: "info@okdecoration.ae",
+        href: "info@okdecoration.ae",
       },
     ],
   },

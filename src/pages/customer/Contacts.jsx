@@ -45,7 +45,7 @@ const infoCards = [
     lines: [
       {
         text: "info@okdecoration.ae",
-        href: "info@okdecoration.ae",
+        href: "mailto:info@okdecoration.ae",
       },
     ],
   },
